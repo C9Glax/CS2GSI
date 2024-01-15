@@ -13,34 +13,36 @@ public struct Player
     
     public override string ToString()
     {
-        return $"{GetType()}\n" +
-               $"\t{Name} {SteamId} {Activity} {Team}\n" +
-               $"\t{State}\n" +
-               $"\t{MatchStats}\n";
+        return $"{GetType().Name}\n" +
+               $"..Name: {Name} SteamId: {SteamId}\n" +
+               $"..Activity: {Activity}\n" +
+               $"..Team: {Team}\n" +
+               $"..{State.ToString()?.Replace("\n", "\n...")}\n" +
+               $"..{MatchStats.ToString()?.Replace("\n", "\n...")}\n";
     }
     
     internal static Player? ParseFromJObject(JObject jsonObject)
     {
-        return new Player()
+        return jsonObject.SelectToken("player") is not null ? new Player()
         {
             SteamId = jsonObject.SelectToken("player.steamid")!.Value<string>()!,
             Name = jsonObject.SelectToken("player.name")!.Value<string>()!,
-            Team = CS2TeamFromString(jsonObject.SelectToken("player.team")!.Value<string>()!),
+            Team = CS2TeamFromString(jsonObject.SelectToken("player.team")?.Value<string>()),
             Activity = PlayerActivityFromString(jsonObject.SelectToken("player.activity")!.Value<string>()!),
             State = PlayerState.ParseFromJObject(jsonObject),
             MatchStats = PlayerMatchStats.ParseFromJObject(jsonObject)
-        };
+        } : null;
     }
     
     public enum PlayerActivity {Playing, Menu, TextInput}
 
-    private static CS2Team CS2TeamFromString(string str)
+    private static CS2Team? CS2TeamFromString(string? str)
     {
-        return str.ToLower() switch
+        return str?.ToLower() switch
         {
             "t" => CS2Team.T,
             "ct" => CS2Team.CT,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => null
         };
     }
 

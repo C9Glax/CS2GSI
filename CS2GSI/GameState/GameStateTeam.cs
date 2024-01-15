@@ -9,11 +9,11 @@ public struct GameStateTeam
     
     public override string ToString()
     {
-        return $"{GetType()}\n" +
-               $"\tScore: {Score}\n" +
-               $"\tConsecutiveRoundLosses: {ConsecutiveRoundLosses}\n" +
-               $"\tTimeoutsRemaining: {TimeoutsRemaining}\n" +
-               $"\tMatchesWonThisSeries: {MatchesWonThisSeries}\n";
+        return $"{GetType().Name}\n" +
+               $"..Team {Team}\tScore: {Score}\n" +
+               $"..ConsecutiveRoundLosses: {ConsecutiveRoundLosses}\n" +
+               $"..TimeoutsRemaining: {TimeoutsRemaining}\n" +
+               $"..MatchesWonThisSeries: {MatchesWonThisSeries}\n";
     }
     
     internal static GameStateTeam ParseFromJObject(JObject jsonObject, CS2Team team)

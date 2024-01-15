@@ -40,7 +40,7 @@ public class CS2GSI
         this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
         this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
 
-        if (_lastLocalGameState is not null)
+        if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
             List<ValueTuple<CS2Event, CS2EventArgs>> generatedEvents = CS2EventGenerator.GenerateEvents(_lastLocalGameState.Value, newState, _allGameStates.Last());
             this.logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} events.");

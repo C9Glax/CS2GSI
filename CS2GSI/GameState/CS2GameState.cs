@@ -12,11 +12,11 @@ public struct CS2GameState
 
     public override string ToString()
     {
-        return $"{GetType()}\n" +
-               $"\tTime: {Timestamp}\tSteamId: {ProviderSteamId}\n" +
-               $"\t{Map}\n" +
-               $"\t{Round}\n" +
-               $"\t{Player}\n";
+        return $"{GetType().Name}\n" +
+               $"..Time: {Timestamp}\tProviderSteamId: {ProviderSteamId}\n" +
+               $"..{Map.ToString()?.Replace("\n", "\n...")}\n" +
+               $"..{Round.ToString()?.Replace("\n", "\n...")}\n" +
+               $"..{Player.ToString()?.Replace("\n", "\n...")}\n";
     }
     
     internal static CS2GameState ParseFromJObject(JObject jsonObject)

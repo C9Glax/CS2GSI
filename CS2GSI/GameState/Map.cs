@@ -4,18 +4,20 @@ namespace CS2GSI.GameState;
 
 public struct Map
 {
-    public string Mode, Name;
+    public string Mode, MapName;
     public MapPhase Phase;
     public int Round, NumMatchesToWinSeries;
     public GameStateTeam GameStateTeamCT, GameStateTeamT;
     
     public override string ToString()
     {
-        return $"{GetType()}\n" +
-               $"\t{Mode} {Name} {Round} Matches to Win Series: {NumMatchesToWinSeries}\n" +
-               $"\t{Phase}\n" +
-               $"\t{GameStateTeamCT}\n" +
-               $"\t{GameStateTeamT}\n";
+        return $"{GetType().Name}\n" +
+               $"..Mode: {Mode} Map: {MapName}\n" +
+               $"..Round: {Round}\n" +
+               $"..Matches to Win Series: {NumMatchesToWinSeries}\n" +
+               $"..Phase: {Phase}\n" +
+               $"..{GameStateTeamCT.ToString().Replace("\n", "\n...")}\n" +
+               $"..{GameStateTeamT.ToString().Replace("\n", "\n...")}\n";
     }
 
     internal static Map? ParseFromJObject(JObject jsonObject)
@@ -24,7 +26,7 @@ public struct Map
             ? new Map()
             {
                 Mode = jsonObject.SelectToken("map.mode")!.Value<string>()!,
-                Name = jsonObject.SelectToken("map.name")!.Value<string>()!,
+                MapName = jsonObject.SelectToken("map.name")!.Value<string>()!,
                 Phase = MapPhaseFromString(jsonObject.SelectToken("map.phase")!.Value<string>()!),
                 Round = jsonObject.SelectToken("map.round")!.Value<int>(),
                 NumMatchesToWinSeries = jsonObject.SelectToken("map.num_matches_to_win_series")!.Value<int>(),

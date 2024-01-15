@@ -5,29 +5,32 @@ namespace CS2GSI.GameState;
 public struct Round
 {
     public RoundPhase Phase;
-    public BombStatus Bomb;
-    public CS2Team WinnerTeam;
+    public BombStatus? Bomb;
+    public CS2Team? WinnerTeam;
     
     public override string ToString()
     {
-        return $"{GetType()}\n" +
-               $"\t{Phase} {WinnerTeam} {Bomb}\n";
+        return $"{GetType().Name}\n" +
+               $"..Phase: {Phase}\n" +
+               $"..Winner: {WinnerTeam}\n" +
+               $"..Bomb: {Bomb}\n";
     }
     
     internal static Round? ParseFromJObject(JObject jsonObject)
     {
-        return new Round()
+        return jsonObject.SelectToken("round") is not null ? new Round()
         {
             Phase = RoundPhaseFromString(jsonObject.SelectToken("round.phase")!.Value<string>()!),
-            WinnerTeam = CS2TeamFromString(jsonObject.SelectToken("round.win_team")!.Value<string>()!),
-            Bomb = BombStatusFromString(jsonObject.SelectToken("round.bomb")!.Value<string>()!)
-        };
+            WinnerTeam = CS2TeamFromString(jsonObject.SelectToken("round.win_team")?.Value<string>()),
+            Bomb = BombStatusFromString(jsonObject.SelectToken("round.bomb")?.Value<string>())
+        } : null;
     }
     
     public enum RoundPhase
     {
         Over, Freezetime, Live
     }
+    
     private static RoundPhase RoundPhaseFromString(string str)
     {
         return str switch
@@ -44,24 +47,24 @@ public struct Round
         Planted, Exploded, Defused
     }
     
-    private static BombStatus BombStatusFromString(string str)
+    private static BombStatus? BombStatusFromString(string? str)
     {
         return str switch
         {
             "planted" => BombStatus.Planted,
             "exploded" => BombStatus.Exploded,
             "defused" => BombStatus.Defused,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => null
         };
     }
     
-    private static CS2Team CS2TeamFromString(string str)
+    private static CS2Team? CS2TeamFromString(string? str)
     {
-        return str.ToLower() switch
+        return str?.ToLower() switch
         {
             "t" => CS2Team.T,
             "ct" => CS2Team.CT,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => null
         };
     }
 }
