@@ -84,6 +84,12 @@ public class CS2GSI
             case CS2Event.OnRoundOver:
                 OnRoundOver?.Invoke(cs2Event.Item2);
                 break;
+            case CS2Event.OnRoundWin:
+                OnRoundWin?.Invoke(cs2Event.Item2);
+                break;
+            case CS2Event.OnRoundLoss:
+                OnRoundLoss?.Invoke(cs2Event.Item2);
+                break;
             case CS2Event.OnDamageTaken:
                 OnDamageTaken?.Invoke(cs2Event.Item2);
                 break;
@@ -150,6 +156,8 @@ public class CS2GSI
         OnSmoked,
         OnRoundStart,
         OnRoundOver,
+        OnRoundWin,
+        OnRoundLoss,
         OnDamageTaken,
         OnMatchStart,
         OnMatchOver,
@@ -179,6 +187,8 @@ public class CS2GSI
         OnSmoked,
         OnRoundStart,
         OnRoundOver,
+        OnRoundWin,
+        OnRoundLoss,
         OnDamageTaken,
         OnMatchStart,
         OnMatchOver,
