@@ -2,20 +2,22 @@
 
 public class CS2EventArgs : EventArgs
 {
-    public object? Value;
+    private readonly object? _value;
+    public readonly bool HasValue;
 
     public CS2EventArgs(object? value = null)
     {
-        this.Value = value;
+        this._value = value;
+        this.HasValue = value is not null;
     }
 
     public T? ValueAsOrDefault<T>()
     {
-        return Value is T val ? val : default; 
+        return _value is T val ? val : default; 
     }
 
     public override string ToString()
     {
-        return Value?.ToString() ?? "NoArgs";
+        return _value?.ToString() ?? "NoArgs";
     }
 }
