@@ -8,12 +8,14 @@ public struct CS2GameState
     public int Timestamp;
     public Map? Map;
     public Player? Player;
+    public Round? Round;
 
     public override string ToString()
     {
         return $"{GetType()}\n" +
                $"\tTime: {Timestamp}\tSteamId: {ProviderSteamId}\n" +
                $"\t{Map}\n" +
+               $"\t{Round}\n" +
                $"\t{Player}\n";
     }
     
@@ -24,7 +26,8 @@ public struct CS2GameState
             ProviderSteamId = jsonObject.SelectToken("provider.steamid")!.Value<string>()!,
             Timestamp = jsonObject.SelectToken("provider.timestamp")!.Value<int>(),
             Map = GameState.Map.ParseFromJObject(jsonObject),
-            Player = GameState.Player.ParseFromJObject(jsonObject)
+            Player = GameState.Player.ParseFromJObject(jsonObject),
+            Round = GameState.Round.ParseFromJObject(jsonObject)
         };
     }
 
