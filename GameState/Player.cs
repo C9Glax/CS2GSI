@@ -1,4 +1,6 @@
-﻿namespace CS2GSI.GameState;
+﻿using Newtonsoft.Json.Linq;
+
+namespace CS2GSI.GameState;
 
 public struct Player
 {
@@ -14,5 +16,18 @@ public struct Player
                $"\t{Name} {SteamId} {Activity} {Team}\n" +
                $"\t{State}\n" +
                $"\t{MatchStats}\n";
+    }
+    
+    internal static Player? ParseFromJObject(JObject jsonObject)
+    {
+        return new Player()
+        {
+            SteamId = jsonObject.SelectToken("player.steamid")!.Value<string>()!,
+            Name = jsonObject.SelectToken("player.name")!.Value<string>()!,
+            Team = jsonObject.SelectToken("player.team")!.Value<string>()!,
+            Activity = jsonObject.SelectToken("player.activity")!.Value<string>()!,
+            State = PlayerState.ParseFromJObject(jsonObject),
+            MatchStats = PlayerMatchStats.ParseFromJObject(jsonObject)
+        };
     }
 }
