@@ -104,7 +104,7 @@ internal static class CS2EventGenerator
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHelmetChange, new CS2EventArgs(newGameState.Player?.State?.Helmet)));
         
         if(newGameState.Player?.State?.EquipmentValue != previousPlayerState.Player?.State?.EquipmentValue && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnEquipmentValueChange, new CS2EventArgs(newGameState.Player?.State?.EquipmentValue)));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnEquipmentValueChange, new CS2EventArgs(newGameState.Player?.State?.EquipmentValue - previousPlayerState.Player?.State?.EquipmentValue)));
         
         if(newGameState.Player?.Team != previousPlayerState.Player?.Team && newGameState.Player is not null)
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnTeamChange, new CS2EventArgs(newGameState.Player?.Team)));
