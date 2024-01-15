@@ -4,7 +4,7 @@ using Microsoft.Win32;
 
 namespace CS2GSI;
 
-internal class GsiConfigInstaller
+internal static class GsiConfigInstaller
 {
     internal static void InstallGsi()
     {
