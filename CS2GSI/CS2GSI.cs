@@ -37,8 +37,6 @@ public class CS2GSI
         JObject jsonObject = JObject.Parse(messageJson);
         CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
         this.logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
-        this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
-        this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
 
         if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
@@ -48,6 +46,8 @@ public class CS2GSI
                 this.logger?.Log(LogLevel.Debug, $"Events:\n\t{string.Join("\n\t", generatedEvents)}");
             InvokeEvents(generatedEvents);
         }
+        this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
+        this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
         _allGameStates.Add(newState);
     }
 
