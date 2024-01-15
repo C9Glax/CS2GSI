@@ -26,25 +26,31 @@ public class CS2GSI
             return;
         }
         this._gsiServer = new GSIServer(3000);
-        this._gsiServer.OnMessage += messageJson =>
-        {
-            JObject jsonObject = JObject.Parse(messageJson);
-            CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
-            this.logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
-            this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
-            this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
-
-            if (_lastLocalGameState is not null)
-            {
-                List<ValueTuple<CS2Event, CS2EventArgs>> generatedEvents = CS2EventGenerator.GenerateEvents(_lastLocalGameState.Value, newState, _allGameStates.Last());
-                this.logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} events.");
-                if(generatedEvents.Count > 0)
-                    this.logger?.Log(LogLevel.Debug, $"Events:\n\t{string.Join("\n\t", generatedEvents)}");
-                InvokeEvents(generatedEvents);
-            }
-            _allGameStates.Add(newState);
-        };
+        this._gsiServer.OnMessage += GsiServerOnOnMessage;
+        
+        while(this._gsiServer.IsRunning)
+            Thread.Sleep(10);
     }
+
+    private void GsiServerOnOnMessage(string messageJson)
+    {
+        JObject jsonObject = JObject.Parse(messageJson);
+        CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
+        this.logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
+        this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
+        this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
+
+        if (_lastLocalGameState is not null)
+        {
+            List<ValueTuple<CS2Event, CS2EventArgs>> generatedEvents = CS2EventGenerator.GenerateEvents(_lastLocalGameState.Value, newState, _allGameStates.Last());
+            this.logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} events.");
+            if(generatedEvents.Count > 0)
+                this.logger?.Log(LogLevel.Debug, $"Events:\n\t{string.Join("\n\t", generatedEvents)}");
+            InvokeEvents(generatedEvents);
+        }
+        _allGameStates.Add(newState);
+    }
+
 
     private void InvokeEvents(List<ValueTuple<CS2Event, CS2EventArgs>> cs2Events)
     {
