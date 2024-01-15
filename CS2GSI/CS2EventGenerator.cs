@@ -16,6 +16,8 @@ internal static class CS2EventGenerator
         
         if(events.Count > 0)
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.AnyEvent, new CS2EventArgs()));
+        
+        events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.AnyMessage, new CS2EventArgs()));
         return events;
     }
 

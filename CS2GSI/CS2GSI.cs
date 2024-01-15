@@ -134,6 +134,9 @@ public class CS2GSI
             case CS2Event.AnyEvent:
                 AnyEvent?.Invoke(cs2Event.Item2);
                 break;
+            case CS2Event.AnyMessage:
+                AnyMessage?.Invoke(cs2Event.Item2);
+                break;
             default:
                 this.logger?.Log(LogLevel.Error, $"Unknown Event {cs2Event}");
                 return;
@@ -164,7 +167,8 @@ public class CS2GSI
         OnBombPlanted,
         OnBombDefused,
         OnBombExploded,
-        AnyEvent
+        AnyEvent,
+        AnyMessage
     }
     
     public delegate void CS2EventHandler(CS2EventArgs eventArgs);
@@ -192,6 +196,7 @@ public class CS2GSI
         OnBombPlanted,
         OnBombDefused,
         OnBombExploded,
-        AnyEvent;
+        AnyEvent,
+        AnyMessage;
 
 }
