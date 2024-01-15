@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS2GSI", "CS2GSI.csproj", "{F2272524-6CDD-4ACD-8CFF-64B9AF98D54A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS2GSI", "CS2GSI\CS2GSI.csproj", "{F2272524-6CDD-4ACD-8CFF-64B9AF98D54A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{A4FE89AD-F89B-4ABC-BA88-DF4AC2CADE09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{F2272524-6CDD-4ACD-8CFF-64B9AF98D54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2272524-6CDD-4ACD-8CFF-64B9AF98D54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2272524-6CDD-4ACD-8CFF-64B9AF98D54A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4FE89AD-F89B-4ABC-BA88-DF4AC2CADE09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4FE89AD-F89B-4ABC-BA88-DF4AC2CADE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4FE89AD-F89B-4ABC-BA88-DF4AC2CADE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4FE89AD-F89B-4ABC-BA88-DF4AC2CADE09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -25,7 +25,7 @@ public class CS2GSI
             this.logger?.Log(LogLevel.Critical, "Could not install GSI-Configfile. Exiting.");
             return;
         }
-        this._gsiServer = new GSIServer(3000);
+        this._gsiServer = new GSIServer(3000, logger);
         this._gsiServer.OnMessage += GsiServerOnOnMessage;
         
         while(this._gsiServer.IsRunning)
