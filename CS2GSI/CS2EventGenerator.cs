@@ -12,10 +12,10 @@ internal static class CS2EventGenerator
         events.AddRange(GenerateMapEvents(previousPlayerState, newGameState, lastGameState));
         
         if(lastGameState.Player?.SteamId != newGameState.Player?.SteamId)
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnPlayerChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnPlayerChange, new CS2EventArgs(newGameState.Player?.SteamId)));
         
         if(events.Count > 0)
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.AnyEvent, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.AnyEvent, new CS2EventArgs(events.Count)));
         
         events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.AnyMessage, new CS2EventArgs()));
         return events;
@@ -65,13 +65,13 @@ internal static class CS2EventGenerator
             return events;
         
         if(newGameState.Player?.MatchStats?.Kills > previousPlayerState.Player?.MatchStats?.Kills && newGameState.Player is { MatchStats: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnKill, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnKill, new CS2EventArgs(newGameState.Player?.MatchStats?.Kills)));
         
         if(newGameState.Player?.State?.RoundHs > previousPlayerState.Player?.State?.RoundHs && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHeadshot, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHeadshot, new CS2EventArgs(newGameState.Player?.State?.RoundHs)));
         
         if(newGameState.Player?.MatchStats?.Deaths > previousPlayerState.Player?.MatchStats?.Deaths && newGameState.Player is { MatchStats: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnDeath, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnDeath, new CS2EventArgs(newGameState.Player?.MatchStats?.Deaths)));
         
         if(newGameState.Player?.State?.Flashed > 0 && newGameState.Player is { State: not null})
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnFlashed, new CS2EventArgs()));
@@ -83,25 +83,25 @@ internal static class CS2EventGenerator
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnSmoked, new CS2EventArgs()));
         
         if(newGameState.Player?.State?.Health < previousPlayerState.Player?.State?.Health && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnDamageTaken, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnDamageTaken, new CS2EventArgs(newGameState.Player?.State?.Health)));
         
         if(newGameState.Player?.State?.Health != previousPlayerState.Player?.State?.Health && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHealthChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHealthChange, new CS2EventArgs(newGameState.Player?.State?.Health)));
         
         if(newGameState.Player?.State?.Money != previousPlayerState.Player?.State?.Money && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnMoneyChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnMoneyChange, new CS2EventArgs(newGameState.Player?.State?.Money)));
         
         if(newGameState.Player?.State?.Armor != previousPlayerState.Player?.State?.Armor && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnArmorChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnArmorChange, new CS2EventArgs(newGameState.Player?.State?.Armor)));
         
         if(newGameState.Player?.State?.Helmet != previousPlayerState.Player?.State?.Helmet && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHelmetChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnHelmetChange, new CS2EventArgs(newGameState.Player?.State?.Helmet)));
         
         if(newGameState.Player?.State?.EquipmentValue != previousPlayerState.Player?.State?.EquipmentValue && newGameState.Player is { State: not null})
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnEquipmentValueChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnEquipmentValueChange, new CS2EventArgs(newGameState.Player?.State?.EquipmentValue)));
         
         if(newGameState.Player?.Team != previousPlayerState.Player?.Team && newGameState.Player is not null)
-            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnTeamChange, new CS2EventArgs()));
+            events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnTeamChange, new CS2EventArgs(newGameState.Player?.Team)));
         
         
         return events;
