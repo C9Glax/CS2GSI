@@ -36,7 +36,7 @@ public struct Player
 
     private static CS2Team CS2TeamFromString(string str)
     {
-        return str switch
+        return str.ToLower() switch
         {
             "t" => CS2Team.T,
             "ct" => CS2Team.CT,
