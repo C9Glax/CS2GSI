@@ -10,6 +10,7 @@ internal static class CS2GSIJsonParser
         JObject jsonObject = JObject.Parse(jsonString);
         return new CS2GameState()
         {
+            ProviderSteamId = jsonObject.SelectToken("provider.steamid")!.Value<string>()!,
             Timestamp = jsonObject.SelectToken("provider.timestamp")!.Value<int>(),
             Map = ParseMapFromJObject(jsonObject),
             Player = ParsePlayerFromJObject(jsonObject)
