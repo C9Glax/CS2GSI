@@ -4,17 +4,18 @@ namespace CS2GSI.GameState;
 
 public struct Map
 {
-    public string Mode, Name, Phase;
+    public string Mode, Name;
+    public MapPhase Phase;
     public int Round, NumMatchesToWinSeries;
-    public Team TeamCT, TeamT;
+    public GameStateTeam GameStateTeamCT, GameStateTeamT;
     
     public override string ToString()
     {
         return $"{GetType()}\n" +
                $"\t{Mode} {Name} {Round} Matches to Win Series: {NumMatchesToWinSeries}\n" +
                $"\t{Phase}\n" +
-               $"\t{TeamCT}\n" +
-               $"\t{TeamT}\n";
+               $"\t{GameStateTeamCT}\n" +
+               $"\t{GameStateTeamT}\n";
     }
 
     internal static Map? ParseFromJObject(JObject jsonObject)
@@ -24,12 +25,27 @@ public struct Map
             {
                 Mode = jsonObject.SelectToken("map.mode")!.Value<string>()!,
                 Name = jsonObject.SelectToken("map.name")!.Value<string>()!,
-                Phase = jsonObject.SelectToken("map.phase")!.Value<string>()!,
+                Phase = MapPhaseFromString(jsonObject.SelectToken("map.phase")!.Value<string>()!),
                 Round = jsonObject.SelectToken("map.round")!.Value<int>(),
                 NumMatchesToWinSeries = jsonObject.SelectToken("map.num_matches_to_win_series")!.Value<int>(),
-                TeamCT = Team.ParseFromJObject(jsonObject, "ct"),
-                TeamT = Team.ParseFromJObject(jsonObject, "t")
+                GameStateTeamCT = GameStateTeam.ParseFromJObject(jsonObject, CS2Team.CT),
+                GameStateTeamT = GameStateTeam.ParseFromJObject(jsonObject, CS2Team.T)
             }
             : null;
+    }
+    
+    public enum MapPhase {Warmup, Live, Intermission, GameOver}
+    
+    private static MapPhase MapPhaseFromString(string str)
+    {
+        return str switch
+        {
+            "warmup" => MapPhase.Warmup,
+            "live" => MapPhase.Live,
+            "intermission" => MapPhase.Intermission,
+            // ReSharper disable once StringLiteralTypo
+            "gameover" => MapPhase.GameOver,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }
