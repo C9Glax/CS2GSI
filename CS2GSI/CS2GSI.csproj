@@ -4,6 +4,11 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>1.0.1</Version>
+        <Title>CS2GSI</Title>
+        <Authors>Glax</Authors>
+        <RepositoryUrl>https://github.com/C9Glax/CS2GSI</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
