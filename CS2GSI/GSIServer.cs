@@ -44,8 +44,8 @@ internal class GSIServer
 
             StreamReader reader = new (request.InputStream, request.ContentEncoding);
             string content = await reader.ReadToEndAsync();
-            OnMessage?.Invoke(content);
             this.logger?.Log(LogLevel.Debug, content);
+            OnMessage?.Invoke(content);
         }
         HttpListener.Close();
         IsRunning = false;
