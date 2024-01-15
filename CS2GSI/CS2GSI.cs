@@ -6,46 +6,44 @@ namespace CS2GSI;
 
 public class CS2GSI
 {
-    private GSIServer _gsiServer;
-    private List<CS2GameState> _allGameStates = new();
+    private readonly GSIServer _gsiServer;
+    private readonly List<CS2GameState> _allGameStates = new();
     private CS2GameState? _lastLocalGameState = null;
-    private ILogger? logger;
+    private readonly ILogger? _logger;
+    public bool IsRunning => this._gsiServer.IsRunning;
 
     public CS2GSI(ILogger? logger = null)
     {
-        this.logger = logger;
-        this.logger?.Log(LogLevel.Information, "Installing GSI-Configfile...");
+        this._logger = logger;
+        this._logger?.Log(LogLevel.Information, "Installing GSI-Configfile...");
         try
         {
             GsiConfigInstaller.InstallGsi();
         }
         catch (Exception e)
         {
-            this.logger?.Log(LogLevel.Error, e.StackTrace);
-            this.logger?.Log(LogLevel.Critical, "Could not install GSI-Configfile. Exiting.");
+            this._logger?.Log(LogLevel.Error, e.StackTrace);
+            this._logger?.Log(LogLevel.Critical, "Could not install GSI-Configfile. Exiting.");
             return;
         }
         this._gsiServer = new GSIServer(3000, logger);
         this._gsiServer.OnMessage += GsiServerOnOnMessage;
-        
-        while(this._gsiServer.IsRunning)
-            Thread.Sleep(10);
     }
 
     private void GsiServerOnOnMessage(string messageJson)
     {
         JObject jsonObject = JObject.Parse(messageJson);
         CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
-        this.logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
+        this._logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
 
         if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
             List<ValueTuple<CS2Event, CS2EventArgs>> generatedEvents = CS2EventGenerator.GenerateEvents(_lastLocalGameState.Value, newState, _allGameStates.Last());
-            this.logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} events:\n\t{string.Join("\n\t", generatedEvents)}");
+            this._logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} events:\n\t{string.Join("\n\t", generatedEvents)}");
             InvokeEvents(generatedEvents);
         }
         this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
-        this.logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
+        this._logger?.Log(LogLevel.Debug, $"Updated Local State:\n{_lastLocalGameState.ToString()}");
         _allGameStates.Add(newState);
     }
 
@@ -142,7 +140,7 @@ public class CS2GSI
                 AnyMessage?.Invoke(cs2Event.Item2);
                 break;
             default:
-                this.logger?.Log(LogLevel.Error, $"Unknown Event {cs2Event}");
+                this._logger?.Log(LogLevel.Error, $"Unknown Event {cs2Event}");
                 return;
         }
     }
