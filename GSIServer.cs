@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CS2GSI;
 
-public class GSIServer
+internal class GSIServer
 {
     private HttpListener HttpListener { get; init; }
     internal delegate void OnMessageEventHandler(string content);
