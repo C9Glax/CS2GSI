@@ -7,6 +7,8 @@ public class TestApp
 {
     public static void Main(string[] args)
     {
-        new CS2GSI.CS2GSI(new Logger(LogLevel.Information));
+        CS2GSI.CS2GSI gsi = new (new Logger(LogLevel.Debug));
+        while(gsi.IsRunning)
+            Thread.Sleep(10);
     }
 }
