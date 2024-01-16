@@ -2,23 +2,14 @@
 
 namespace CS2GSI.GameState;
 
-public struct PlayerState
+public record PlayerState : GameState
 {
     public int Health, Armor, Flashed, Smoked, Burning, Money, RoundKills, RoundHs, EquipmentValue;
     public bool Helmet;
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Health: {Health}\n" +
-               $"..Armor: {Armor}\n" +
-               $"..Flashed: {Flashed}\n" +
-               $"..Smoked: {Smoked}\n" +
-               $"..Burning: {Burning}\n" +
-               $"..Money: {Money}\n" +
-               $"..RoundKills: {RoundKills}\n" +
-               $"..RoundHs: {RoundHs}\n" +
-               $"..EquipmentValue: {EquipmentValue}\n";
+        return base.ToString();
     }
     
     internal static PlayerState? ParseFromJObject(JObject jsonObject)

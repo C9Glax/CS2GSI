@@ -2,16 +2,13 @@
 
 namespace CS2GSI.GameState;
 
-public struct PlayerMatchStats
+public record PlayerMatchStats : GameState
 {
     public int Kills, Assists, Deaths, MVPs, Score;
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..KAD: {Kills} {Assists} {Deaths}\n" +
-               $"..MVPs: {MVPs}\n" +
-               $"..Score: {Score}\n";
+        return base.ToString();
     }
     
     internal static PlayerMatchStats? ParseFromJObject(JObject jsonObject)

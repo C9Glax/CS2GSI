@@ -2,7 +2,7 @@
 
 namespace CS2GSI.GameState;
 
-public struct Map
+public record Map : GameState
 {
     public string Mode, MapName;
     public MapPhase Phase;
@@ -11,13 +11,7 @@ public struct Map
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Mode: {Mode} Map: {MapName}\n" +
-               $"..Round: {Round}\n" +
-               $"..Matches to Win Series: {NumMatchesToWinSeries}\n" +
-               $"..Phase: {Phase}\n" +
-               $"..{GameStateTeamCT.ToString().Replace("\n", "\n...")}\n" +
-               $"..{GameStateTeamT.ToString().Replace("\n", "\n...")}\n";
+        return base.ToString();
     }
 
     internal static Map? ParseFromJObject(JObject jsonObject)

@@ -2,18 +2,14 @@
 
 namespace CS2GSI.GameState;
 
-public struct GameStateTeam
+public record GameStateTeam : GameState
 {
     public CS2Team Team;
     public int Score, ConsecutiveRoundLosses, TimeoutsRemaining, MatchesWonThisSeries;
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Team {Team}\tScore: {Score}\n" +
-               $"..ConsecutiveRoundLosses: {ConsecutiveRoundLosses}\n" +
-               $"..TimeoutsRemaining: {TimeoutsRemaining}\n" +
-               $"..MatchesWonThisSeries: {MatchesWonThisSeries}\n";
+        return base.ToString();
     }
     
     internal static GameStateTeam ParseFromJObject(JObject jsonObject, CS2Team team)

@@ -2,7 +2,7 @@
 
 namespace CS2GSI.GameState;
 
-public struct Round
+public record Round : GameState
 {
     public RoundPhase Phase;
     public BombStatus? Bomb;
@@ -10,10 +10,7 @@ public struct Round
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Phase: {Phase}\n" +
-               $"..Winner: {WinnerTeam}\n" +
-               $"..Bomb: {Bomb}\n";
+        return base.ToString();
     }
     
     internal static Round? ParseFromJObject(JObject jsonObject)

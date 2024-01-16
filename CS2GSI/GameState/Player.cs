@@ -2,7 +2,7 @@
 
 namespace CS2GSI.GameState;
 
-public struct Player
+public record Player : GameState
 {
     public string SteamId, Name;
     public PlayerActivity Activity;
@@ -13,12 +13,7 @@ public struct Player
     
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Name: {Name} SteamId: {SteamId}\n" +
-               $"..Activity: {Activity}\n" +
-               $"..Team: {Team}\n" +
-               $"..{State.ToString()?.Replace("\n", "\n...")}\n" +
-               $"..{MatchStats.ToString()?.Replace("\n", "\n...")}\n";
+        return base.ToString();
     }
     
     internal static Player? ParseFromJObject(JObject jsonObject)

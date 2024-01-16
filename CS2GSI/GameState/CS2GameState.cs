@@ -2,7 +2,7 @@
 
 namespace CS2GSI.GameState;
 
-public struct CS2GameState
+public record CS2GameState : GameState
 {
     public string ProviderSteamId;
     public int Timestamp;
@@ -12,11 +12,7 @@ public struct CS2GameState
 
     public override string ToString()
     {
-        return $"{GetType().Name}\n" +
-               $"..Time: {Timestamp}\tProviderSteamId: {ProviderSteamId}\n" +
-               $"..{Map.ToString()?.Replace("\n", "\n...")}\n" +
-               $"..{Round.ToString()?.Replace("\n", "\n...")}\n" +
-               $"..{Player.ToString()?.Replace("\n", "\n...")}\n";
+        return base.ToString();
     }
     
     internal static CS2GameState ParseFromJObject(JObject jsonObject)
@@ -25,9 +21,9 @@ public struct CS2GameState
         {
             ProviderSteamId = jsonObject.SelectToken("provider.steamid")!.Value<string>()!,
             Timestamp = jsonObject.SelectToken("provider.timestamp")!.Value<int>(),
-            Map = GameState.Map.ParseFromJObject(jsonObject),
-            Player = GameState.Player.ParseFromJObject(jsonObject),
-            Round = GameState.Round.ParseFromJObject(jsonObject)
+            Map = Map.ParseFromJObject(jsonObject),
+            Player = Player.ParseFromJObject(jsonObject),
+            Round = Round.ParseFromJObject(jsonObject)
         };
     }
 
@@ -36,7 +32,7 @@ public struct CS2GameState
         if (previousLocalState is null)
             return this.Player?.SteamId == ProviderSteamId ? this : null;
         if (this.Player?.SteamId != ProviderSteamId)
-            return this.WithPlayer(previousLocalState.Value.Player);
+            return this.WithPlayer(previousLocalState.Player);
         return this;
     }
 
