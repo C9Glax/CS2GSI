@@ -1,5 +1,11 @@
 # CS2GSI
-[![Static Badge](https://img.shields.io/badge/NuGet-CS2GSI-blue)](https://www.nuget.org/packages/CS2GSI/)
+[![GitHub License](https://img.shields.io/github/license/c9glax/CS2GSI)](/LICENSE)
+[![NuGet Version](https://img.shields.io/nuget/v/CS2GSI)](https://www.nuget.org/packages/CS2GSI/)
+[![Github](https://img.shields.io/badge/Github-8A2BE2)](https://github.com/C9Glax/CS2GSI)
+[![GitHub Release](https://img.shields.io/github/v/release/c9glax/CS2GSI)](https://github.com/C9Glax/CS2GSI/releases/latest)
+
+
+
 
 ## Example Usage
 ```csharp
