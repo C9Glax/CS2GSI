@@ -1,4 +1,5 @@
 # CS2GSI
+[![Static Badge](https://img.shields.io/badge/NuGet-CS2GSI-blue)](https://www.nuget.org/packages/CS2GSI/)
 
 ## Example Usage
 ```csharp
