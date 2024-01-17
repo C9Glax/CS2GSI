@@ -56,93 +56,42 @@ public class CS2GSI
 
     private void InvokeEvent(ValueTuple<CS2Event, CS2EventArgs> cs2Event)
     {
-        switch (cs2Event.Item1)
+        GetEventHandlerForEvent(cs2Event.Item1)?.Invoke(cs2Event.Item2);
+    }
+    
+    public CS2EventHandler? GetEventHandlerForEvent(CS2Event cs2Event)
+    {
+        return cs2Event switch
         {
-            case CS2Event.OnKill:
-                OnKill?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnHeadshot:
-                OnHeadshot?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnDeath:
-                OnDeath?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnFlashed:
-                OnFlashed?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnBurning:
-                OnBurning?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnSmoked:
-                OnSmoked?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnRoundStart:
-                OnRoundStart?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnRoundOver:
-                OnRoundOver?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnRoundWin:
-                OnRoundWin?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnRoundLoss:
-                OnRoundLoss?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnDamageTaken:
-                OnDamageTaken?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnMatchStart:
-                OnMatchStart?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnMatchOver:
-                OnMatchOver?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnMoneyChange:
-                OnMoneyChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnHealthChange:
-                OnHealthChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnArmorChange:
-                OnArmorChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnHelmetChange:
-                OnHelmetChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnEquipmentValueChange:
-                OnEquipmentValueChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnTeamChange:
-                OnTeamChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnPlayerChange:
-                OnPlayerChange?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnFreezeTime:
-                OnFreezeTime?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnHalfTime:
-                OnHalfTime?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnBombDefused:
-                OnBombDefused?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnBombExploded:
-                OnBombExploded?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.OnBombPlanted:
-                OnBombPlanted?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.AnyEvent:
-                AnyEvent?.Invoke(cs2Event.Item2);
-                break;
-            case CS2Event.AnyMessage:
-                AnyMessage?.Invoke(cs2Event.Item2);
-                break;
-            default:
-                this._logger?.Log(LogLevel.Error, $"Unknown Event {cs2Event}");
-                return;
-        }
+            CS2Event.OnKill => this.OnKill,
+            CS2Event.OnHeadshot => this.OnHeadshot,
+            CS2Event.OnDeath => this.OnDeath,
+            CS2Event.OnFlashed => this.OnFlashed,
+            CS2Event.OnBurning => this.OnBurning,
+            CS2Event.OnSmoked => this.OnSmoked,
+            CS2Event.OnRoundStart => this.OnRoundStart,
+            CS2Event.OnRoundOver => this.OnRoundOver,
+            CS2Event.OnRoundWin => this.OnRoundWin,
+            CS2Event.OnRoundLoss => this.OnRoundLoss,
+            CS2Event.OnDamageTaken => this.OnDamageTaken,
+            CS2Event.OnMatchStart => this.OnMatchStart,
+            CS2Event.OnMatchOver => this.OnMatchOver,
+            CS2Event.OnMoneyChange => this.OnMoneyChange,
+            CS2Event.OnHealthChange => this.OnHealthChange,
+            CS2Event.OnArmorChange => this.OnArmorChange,
+            CS2Event.OnHelmetChange => this.OnHelmetChange,
+            CS2Event.OnEquipmentValueChange => this.OnEquipmentValueChange,
+            CS2Event.OnTeamChange => this.OnTeamChange,
+            CS2Event.OnPlayerChange => this.OnPlayerChange,
+            CS2Event.OnHalfTime => this.OnHalfTime,
+            CS2Event.OnFreezeTime => this.OnFreezeTime,
+            CS2Event.OnBombPlanted => this.OnBombPlanted,
+            CS2Event.OnBombDefused => this.OnBombDefused,
+            CS2Event.OnBombExploded => this.OnBombExploded,
+            CS2Event.AnyEvent => this.AnyEvent,
+            CS2Event.AnyMessage => this.AnyMessage,
+            _ => throw new ArgumentException("Unknown Event", nameof(cs2Event))
+        };
     }
     
     public enum CS2Event {
