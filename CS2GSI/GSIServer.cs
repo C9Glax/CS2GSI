@@ -19,20 +19,20 @@ internal class GSIServer
     {
         this.logger = logger;
         string prefix = $"http://127.0.0.1:{port}/";
-        HttpListener = new HttpListener();
-        HttpListener.Prefixes.Add(prefix);
-        HttpListener.Start();
+        this.HttpListener = new HttpListener();
+        this.HttpListener.Prefixes.Add(prefix);
+        this.HttpListener.Start();
         this.logger?.Log(LogLevel.Information, $"Listening on {prefix}");
 
         Thread connectionListener = new (HandleConnection);
         connectionListener.Start();
 
-        IsRunning = true;
+        this.IsRunning = true;
     }
 
     private async void HandleConnection()
     {
-        while (_keepRunning)
+        while (this._keepRunning)
         {
             HttpListenerContext context = await HttpListener.GetContextAsync();
             HttpListenerRequest request = context.Request;
@@ -47,15 +47,15 @@ internal class GSIServer
             this.logger?.Log(LogLevel.Debug, $"Message Content:\n{content}");
             OnMessage?.Invoke(content);
         }
-        HttpListener.Close();
-        IsRunning = false;
+        this.HttpListener.Close();
+        this.IsRunning = false;
         this.logger?.Log(LogLevel.Information, "Stopped GSIServer.");
     }
 
     internal void Dispose()
     {
         this.logger?.Log(LogLevel.Information, "Stopping GSIServer.");
-        _keepRunning = false;
+        this._keepRunning = false;
     }
 
 }
