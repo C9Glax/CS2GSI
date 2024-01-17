@@ -145,7 +145,7 @@ public class CS2GSI
         }
     }
     
-    internal enum CS2Event {
+    public enum CS2Event {
         OnKill,
         OnHeadshot,
         OnDeath,
