@@ -32,12 +32,15 @@ internal static class CS2EventGenerator
             
             if(newGameState.Round?.Phase == Round.RoundPhase.Over && lastGameState.Round?.Phase == Round.RoundPhase.Live)
                 events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnRoundOver, new CS2EventArgs()));
+
+            if (newGameState.Map?.Round is not null && newGameState.Map?.Round != previousPlayerState.Map?.Round)
+            {
+                if(newGameState.Round?.WinnerTeam is not null && newGameState.Round?.WinnerTeam == previousPlayerState.Player?.Team)
+                    events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnRoundWin, new CS2EventArgs()));
             
-            if(newGameState.Round?.WinnerTeam is not null && newGameState.Round?.WinnerTeam == previousPlayerState.Player?.Team)
-                events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnRoundWin, new CS2EventArgs()));
-            
-            if(newGameState.Round?.WinnerTeam is not null && newGameState.Round?.WinnerTeam != previousPlayerState.Player?.Team)
-                events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnRoundLoss, new CS2EventArgs()));
+                if(newGameState.Round?.WinnerTeam is not null && newGameState.Round?.WinnerTeam != previousPlayerState.Player?.Team)
+                    events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnRoundLoss, new CS2EventArgs()));
+            }
         }
         
         if(newGameState.Map?.Phase == Map.MapPhase.Live && lastGameState.Map?.Phase != Map.MapPhase.Live)
