@@ -1,5 +1,4 @@
 ﻿using CS2GSI.GameState;
-using CS2Event = CS2GSI.CS2GSI.CS2Event;
 
 namespace CS2GSI;
 

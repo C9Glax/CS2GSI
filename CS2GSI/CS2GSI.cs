@@ -94,35 +94,7 @@ public class CS2GSI
         };
     }
     
-    public enum CS2Event {
-        OnKill,
-        OnHeadshot,
-        OnDeath,
-        OnFlashed,
-        OnBurning,
-        OnSmoked,
-        OnRoundStart,
-        OnRoundOver,
-        OnRoundWin,
-        OnRoundLoss,
-        OnDamageTaken,
-        OnMatchStart,
-        OnMatchOver,
-        OnMoneyChange,
-        OnHealthChange,
-        OnArmorChange,
-        OnHelmetChange,
-        OnEquipmentValueChange,
-        OnTeamChange,
-        OnPlayerChange,
-        OnHalfTime,
-        OnFreezeTime,
-        OnBombPlanted,
-        OnBombDefused,
-        OnBombExploded,
-        AnyEvent,
-        AnyMessage
-    }
+    
     
     public delegate void CS2EventHandler(CS2EventArgs eventArgs);
 
