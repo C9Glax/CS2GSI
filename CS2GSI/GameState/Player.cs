@@ -4,7 +4,7 @@ namespace CS2GSI.GameState;
 
 public record Player : GameState
 {
-    public string SteamId, Name;
+    public string SteamId = null!, Name = null!;
     public PlayerActivity Activity;
     public CS2Team? Team;
     public int? ObserverSlot;

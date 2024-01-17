@@ -4,7 +4,7 @@ namespace CS2GSI.GameState;
 
 public record CS2GameState : GameState
 {
-    public string ProviderSteamId;
+    public string ProviderSteamId = null!;
     public int Timestamp;
     public Map? Map;
     public Player? Player;

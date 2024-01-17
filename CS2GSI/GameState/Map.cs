@@ -4,10 +4,10 @@ namespace CS2GSI.GameState;
 
 public record Map : GameState
 {
-    public string Mode, MapName;
+    public string Mode = null!, MapName = null!;
     public MapPhase Phase;
     public int Round, NumMatchesToWinSeries;
-    public GameStateTeam GameStateTeamCT, GameStateTeamT;
+    public GameStateTeam GameStateTeamCT = null!, GameStateTeamT = null!;
     
     public override string ToString()
     {

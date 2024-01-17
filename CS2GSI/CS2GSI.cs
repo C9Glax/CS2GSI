@@ -6,7 +6,7 @@ namespace CS2GSI;
 
 public class CS2GSI
 {
-    private readonly GSIServer _gsiServer;
+    private readonly GSIServer _gsiServer = null!;
     private readonly List<CS2GameState> _allGameStates = new();
     private CS2GameState? _lastLocalGameState = null;
     private readonly ILogger? _logger;
