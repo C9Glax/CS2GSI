@@ -43,7 +43,7 @@ internal static class CS2EventGenerator
             }
         }
         
-        if(newGameState.Map?.Phase == Map.MapPhase.Live && lastGameState.Map?.Phase != Map.MapPhase.Live)
+        if(newGameState.Map?.Phase == Map.MapPhase.Live && lastGameState.Map?.Phase == Map.MapPhase.Warmup)
             events.Add(new ValueTuple<CS2Event, CS2EventArgs>(CS2Event.OnMatchStart, new CS2EventArgs()));
         
         if(newGameState.Map?.Phase == Map.MapPhase.GameOver && lastGameState.Map?.Phase != Map.MapPhase.GameOver)
