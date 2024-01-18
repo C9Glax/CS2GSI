@@ -21,6 +21,8 @@ public static void Main(string[] args)
 
 ### Events
 
+All Events with IDs here: https://github.com/C9Glax/CS2GSI/blob/master/CS2GSI/CS2Event.cs
+
 `EventName` (_ParameterType_) Description
 
 * `OnKill` (_int_) Number of Kills in Match
