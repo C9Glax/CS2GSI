@@ -11,11 +11,12 @@ public class CS2GSI
     private CS2GameState? _lastLocalGameState = null;
     private readonly ILogger? _logger;
     public bool IsRunning => this._gsiServer.IsRunning;
+    public CS2GameState? CurrentGameState => _lastLocalGameState;
 
     public CS2GSI(ILogger? logger = null)
     {
         this._logger = logger;
-        this._logger?.Log(LogLevel.Information, "Installing GSI-Configfile...");
+        this._logger?.Log(LogLevel.Information, Resources.Installing_GSI_File);
         try
         {
             GsiConfigInstaller.InstallGsi();
@@ -23,7 +24,7 @@ public class CS2GSI
         catch (Exception e)
         {
             this._logger?.Log(LogLevel.Error, e.StackTrace);
-            this._logger?.Log(LogLevel.Critical, "Could not install GSI-Configfile. Exiting.");
+            this._logger?.Log(LogLevel.Critical, Resources.Installing_GSI_File_Failed);
             return;
         }
         this._gsiServer = new GSIServer(3000, logger);
@@ -34,7 +35,7 @@ public class CS2GSI
     {
         JObject jsonObject = JObject.Parse(messageJson);
         CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
-        this._logger?.Log(LogLevel.Debug, $"Received State:\n{newState.ToString()}");
+        this._logger?.Log(LogLevel.Debug, $"{Resources.Received_State}:\n{newState.ToString()}");
 
         if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
@@ -43,7 +44,7 @@ public class CS2GSI
             InvokeEvents(generatedEvents);
         }
         this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
-        this._logger?.Log(LogLevel.Debug, $"\nUpdated Local State:\n{_lastLocalGameState}");
+        this._logger?.Log(LogLevel.Debug, $"\n{Resources.Updated_Local_State}:\n{_lastLocalGameState}");
         _allGameStates.Add(newState);
     }
 
@@ -90,7 +91,7 @@ public class CS2GSI
             CS2Event.OnBombExploded => this.OnBombExploded,
             CS2Event.AnyEvent => this.AnyEvent,
             CS2Event.AnyMessage => this.AnyMessage,
-            _ => throw new ArgumentException("Unknown Event", nameof(cs2Event))
+            _ => throw new ArgumentException(Resources.Unknown_Event, nameof(cs2Event))
         };
     }
     

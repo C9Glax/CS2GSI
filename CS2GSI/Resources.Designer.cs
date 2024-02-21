@@ -89,5 +89,77 @@ namespace CS2GSI {
                 return ResourceManager.GetString("GSI_CFG_Content", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing GSI-Configfile....
+        /// </summary>
+        internal static string Installing_GSI_File {
+            get {
+                return ResourceManager.GetString("Installing_GSI_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not install GSI-Configfile. Exiting..
+        /// </summary>
+        internal static string Installing_GSI_File_Failed {
+            get {
+                return ResourceManager.GetString("Installing_GSI_File_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not get Steam-Installation FolderPath.
+        /// </summary>
+        internal static string No_Installation_Folderpath {
+            get {
+                return ResourceManager.GetString("No_Installation_Folderpath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No libraryfolders.vdf found.
+        /// </summary>
+        internal static string No_Libraryfolders_vdf {
+            get {
+                return ResourceManager.GetString("No_Libraryfolders_vdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Steam Installation found..
+        /// </summary>
+        internal static string No_Steam {
+            get {
+                return ResourceManager.GetString("No_Steam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received State.
+        /// </summary>
+        internal static string Received_State {
+            get {
+                return ResourceManager.GetString("Received_State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown Event.
+        /// </summary>
+        internal static string Unknown_Event {
+            get {
+                return ResourceManager.GetString("Unknown_Event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated Local State.
+        /// </summary>
+        internal static string Updated_Local_State {
+            get {
+                return ResourceManager.GetString("Updated_Local_State", resourceCulture);
+            }
+        }
     }
 }

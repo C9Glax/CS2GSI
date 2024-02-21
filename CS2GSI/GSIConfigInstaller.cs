@@ -42,8 +42,8 @@ internal static class GsiConfigInstaller
             path = "~/.local/share/Steam/steamapps/libraryfolders.vdf";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             path = "~/Library/Application Support/Steam/steamapps/libraryfolders.vdf";
-        else throw new Exception("Could not get Installation FolderPath");
-        return path ?? throw new FileNotFoundException("No libraryfolders.vdf found");
+        else throw new Exception(Resources.No_Installation_Folderpath);
+        return path ?? throw new FileNotFoundException(Resources.No_Libraryfolders_vdf);
     }
 
     [SupportedOSPlatform("windows")]
@@ -51,7 +51,7 @@ internal static class GsiConfigInstaller
     {
         string steamInstallation =
             (string)(Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam", "SteamPath", null) ??
-                     throw new DirectoryNotFoundException("No Steam Installation found."));
+                     throw new DirectoryNotFoundException(Resources.No_Steam));
         return Path.Combine(steamInstallation, "steamapps\\libraryfolders.vdf");
     }
 }

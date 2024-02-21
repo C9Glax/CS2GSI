@@ -21,4 +21,29 @@
     <data name="GSI_CFG_Content" type="System.Resources.ResXFileRef">
         <value>gamestate_integration_cs2gsi.cfg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral</value>
     </data>
+    <data name="Unknown_Event" xml:space="preserve">
+        <value>Unknown Event</value>
+        <comment>Event is not defined</comment>
+    </data>
+    <data name="Installing_GSI_File" xml:space="preserve">
+        <value>Installing GSI-Configfile...</value>
+    </data>
+    <data name="Installing_GSI_File_Failed" xml:space="preserve">
+        <value>Could not install GSI-Configfile. Exiting.</value>
+    </data>
+    <data name="Received_State" xml:space="preserve">
+        <value>Received State</value>
+    </data>
+    <data name="Updated_Local_State" xml:space="preserve">
+        <value>Updated Local State</value>
+    </data>
+    <data name="No_Installation_Folderpath" xml:space="preserve">
+        <value>Could not get Steam-Installation FolderPath</value>
+    </data>
+    <data name="No_Libraryfolders_vdf" xml:space="preserve">
+        <value>No libraryfolders.vdf found</value>
+    </data>
+    <data name="No_Steam" xml:space="preserve">
+        <value>No Steam Installation found.</value>
+    </data>
 </root>
