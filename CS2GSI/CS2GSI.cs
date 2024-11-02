@@ -1,5 +1,6 @@
 ﻿using CS2GSI.GameState;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CS2GSI;
@@ -36,6 +37,13 @@ public class CS2GSI
         JObject jsonObject = JObject.Parse(messageJson);
         CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
         this._logger?.Log(LogLevel.Debug, $"{Resources.Received_State}:\n{newState.ToString()}");
+#if DEBUG
+        long time = DateTime.Now.ToFileTime();
+        Directory.CreateDirectory("states");
+        File.WriteAllText(Path.Join("states", $"{time}.json"), JsonConvert.SerializeObject(newState, Formatting.Indented, new Newtonsoft.Json.Converters.StringEnumConverter()));
+        Directory.CreateDirectory("messages");
+        File.WriteAllText(Path.Join("messages", $"{time}.json"), messageJson);
+#endif
 
         if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
