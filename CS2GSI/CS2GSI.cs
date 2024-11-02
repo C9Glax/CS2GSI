@@ -99,6 +99,7 @@ public class CS2GSI
             CS2Event.OnBombExploded => this.OnBombExploded,
             CS2Event.AnyEvent => this.AnyEvent,
             CS2Event.AnyMessage => this.AnyMessage,
+            CS2Event.OnActivityChange => this.OnActivityChange,
             _ => throw new ArgumentException(Resources.Unknown_Event, nameof(cs2Event))
         };
     }
@@ -133,6 +134,7 @@ public class CS2GSI
         OnBombDefused,
         OnBombExploded,
         AnyEvent,
-        AnyMessage;
+        AnyMessage,
+        OnActivityChange;
 
 }

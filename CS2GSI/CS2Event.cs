@@ -28,4 +28,5 @@ public enum CS2Event : byte {
     OnBombExploded = 24,
     AnyEvent = 25,
     AnyMessage = 26,
+    OnActivityChange = 27
 }
