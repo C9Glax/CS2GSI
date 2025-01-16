@@ -4,7 +4,7 @@
 [![Github](https://img.shields.io/badge/Github-8A2BE2)](https://github.com/C9Glax/CS2GSI)
 [![GitHub Release](https://img.shields.io/github/v/release/c9glax/CS2GSI)](https://github.com/C9Glax/CS2GSI/releases/latest)
 
-
+## .net7.0, .net8.0, .net9.0
 
 
 ## Example Usage
@@ -52,3 +52,4 @@ All Events with IDs here: https://github.com/C9Glax/CS2GSI/blob/master/CS2GSI/CS
 * `OnBombExploded`
 * `AnyEvent`
 * `AnyMessage`
+* `OnActivityChange` (_string_) Activity
