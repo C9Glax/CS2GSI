@@ -8,14 +8,24 @@ namespace CS2GSI;
 
 internal class GSIServer
 {
+    public static GSIServer? Instance { get; private set; }
     private HttpListener HttpListener { get; init; }
-    internal delegate void OnMessageEventHandler(string content);
-    internal event OnMessageEventHandler? OnMessage;
     private bool _keepRunning = true;
     internal bool IsRunning { get; private set; }
     private ILogger? logger;
+    
+    internal delegate void OnMessageEventHandler(string content);
+    internal event OnMessageEventHandler? OnMessage;
 
-    internal GSIServer(int port, ILogger? logger = null)
+    public static GSIServer Create(int port, ILogger? logger = null)
+    {
+        Instance = new GSIServer(port, logger);
+        return Instance;
+    }
+
+    private GSIServer(){}
+
+    private GSIServer(int port, ILogger? logger = null)
     {
         this.logger = logger;
         string prefix = $"http://127.0.0.1:{port}/";

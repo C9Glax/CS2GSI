@@ -13,8 +13,14 @@ public class CS2GSI
     private readonly ILogger? _logger;
     public bool IsRunning => this._gsiServer.IsRunning;
     public CS2GameState? CurrentGameState => _lastLocalGameState;
+    
+    private const string DebugDirectory = "Debug";
+    public static string StatesDirectory => Path.Join(DebugDirectory, "States");
+    public static string MessagesDirectory => Path.Join(DebugDirectory, "Messages");
+    public static string EventsDirectory => Path.Join(DebugDirectory, "Messages");
+    public static bool DebugEnabled = false;
 
-    public CS2GSI(ILogger? logger = null)
+    public CS2GSI(ILogger? logger = null, bool debugEnabled = false)
     {
         this._logger = logger;
         this._logger?.Log(LogLevel.Information, Resources.Installing_GSI_File);
@@ -28,7 +34,9 @@ public class CS2GSI
             this._logger?.Log(LogLevel.Critical, Resources.Installing_GSI_File_Failed);
             return;
         }
-        this._gsiServer = new GSIServer(3000, logger);
+
+        DebugEnabled = debugEnabled;
+        this._gsiServer = GSIServer.Create(3000, logger);
         this._gsiServer.OnMessage += GsiServerOnOnMessage;
     }
 
@@ -37,18 +45,32 @@ public class CS2GSI
         JObject jsonObject = JObject.Parse(messageJson);
         CS2GameState newState = CS2GameState.ParseFromJObject(jsonObject);
         this._logger?.Log(LogLevel.Debug, $"{Resources.Received_State}:\n{newState.ToString()}");
-#if DEBUG
-        long time = DateTime.Now.ToFileTime();
-        Directory.CreateDirectory("states");
-        File.WriteAllText(Path.Join("states", $"{time}.json"), JsonConvert.SerializeObject(newState, Formatting.Indented, new Newtonsoft.Json.Converters.StringEnumConverter()));
-        Directory.CreateDirectory("messages");
-        File.WriteAllText(Path.Join("messages", $"{time}.json"), messageJson);
-#endif
+
+        double time = DateTime.UtcNow.Subtract(
+            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+        ).TotalMilliseconds;
+        string timeString = $"{time:N0}.json";
+
+        if (DebugEnabled)
+        {
+            Directory.CreateDirectory(StatesDirectory);
+            Directory.CreateDirectory(MessagesDirectory);
+            File.WriteAllText(Path.Join(StatesDirectory, timeString),
+                JsonConvert.SerializeObject(newState, Formatting.Indented, new Newtonsoft.Json.Converters.StringEnumConverter()));
+            File.WriteAllText(Path.Join(MessagesDirectory, timeString), messageJson);
+        }
 
         if (_lastLocalGameState is not null && _allGameStates.Count > 0)
         {
             List<ValueTuple<CS2Event, CS2EventArgs>> generatedEvents = CS2EventGenerator.GenerateEvents(_lastLocalGameState, newState, _allGameStates.Last());
             this._logger?.Log(LogLevel.Information, $"Generated {generatedEvents.Count} event{(generatedEvents.Count > 1 ? 's' : null)}:\n- {string.Join("\n- ", generatedEvents)}");
+            if (DebugEnabled)
+            {
+                Directory.CreateDirectory(EventsDirectory);
+                File.WriteAllText(Path.Join(StatesDirectory, EventsDirectory), 
+                    JsonConvert.SerializeObject(generatedEvents, Formatting.Indented, new Newtonsoft.Json.Converters.StringEnumConverter()));
+            }
+                
             InvokeEvents(generatedEvents);
         }
         this._lastLocalGameState = newState.UpdateGameStateForLocal(_lastLocalGameState);
@@ -68,7 +90,7 @@ public class CS2GSI
         GetEventHandlerForEvent(cs2Event.Item1)?.Invoke(cs2Event.Item2);
     }
     
-    public CS2EventHandler? GetEventHandlerForEvent(CS2Event cs2Event)
+    private CS2EventHandler? GetEventHandlerForEvent(CS2Event cs2Event)
     {
         return cs2Event switch
         {
@@ -97,14 +119,12 @@ public class CS2GSI
             CS2Event.OnBombPlanted => this.OnBombPlanted,
             CS2Event.OnBombDefused => this.OnBombDefused,
             CS2Event.OnBombExploded => this.OnBombExploded,
-            CS2Event.AnyEvent => this.AnyEvent,
-            CS2Event.AnyMessage => this.AnyMessage,
+            CS2Event.AnyEvent => this.OnAnyEvent,
+            CS2Event.AnyMessage => this.OnAnyMessage,
             CS2Event.OnActivityChange => this.OnActivityChange,
             _ => throw new ArgumentException(Resources.Unknown_Event, nameof(cs2Event))
         };
     }
-    
-    
     
     public delegate void CS2EventHandler(CS2EventArgs eventArgs);
 
@@ -133,8 +153,7 @@ public class CS2GSI
         OnBombPlanted,
         OnBombDefused,
         OnBombExploded,
-        AnyEvent,
-        AnyMessage,
+        OnAnyEvent,
+        OnAnyMessage,
         OnActivityChange;
-
 }
