@@ -10,7 +10,7 @@
         <RepositoryUrl>https://github.com/C9Glax/CS2GSI</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageProjectUrl>https://github.com/C9Glax/CS2GSI</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/C9Glax/CS2GSI/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>
