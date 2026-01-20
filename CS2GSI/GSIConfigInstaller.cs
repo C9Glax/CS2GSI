@@ -8,7 +8,8 @@ internal static class GsiConfigInstaller
 {
     internal static void InstallGsi()
     {
-        string installLocation = Path.Combine(GetInstallDirectory(), "game\\csgo\\cfg\\gamestate_integration_cs2gsi.cfg");
+        string gameInstallDir = GetInstallDirectory(); 
+        string installLocation = Path.Combine(gameInstallDir, "game", "csgo", "cfg", "gamestate_integration_cs2gsi.cfg");
         File.WriteAllText(installLocation, Resources.GSI_CFG_Content);
     }
 
@@ -23,8 +24,10 @@ internal static class GsiConfigInstaller
             else if (line.Contains($"\"{appId}\""))
                 appManifestFolderPath = Path.Join("steamapps", $"appmanifest_{appId}.acf");
 
-        if (libraryPath is null || appManifestFolderPath is null)
-            throw new FileNotFoundException(Resources.No_Installation_Folderpath);
+        if (libraryPath is null)
+            throw new DirectoryNotFoundException("No LibraryFolder path.");
+        else if(appManifestFolderPath is null)
+            throw new FileNotFoundException("No app manifest.");
         else
             appManifestFolderPath = Path.Combine(libraryPath, appManifestFolderPath);
 
@@ -33,7 +36,7 @@ internal static class GsiConfigInstaller
             throw new DirectoryNotFoundException($"No {appId} Installation found.");
         foreach(string line in File.ReadAllLines(appManifestFolderPath))
             if (line.Contains("installdir"))
-                installationPath = Path.Combine(libraryPath!, "steamapps", "common", line.Split("\"").Last(split => split.Length > 0));
+                installationPath = Path.Combine(libraryPath, "steamapps", "common", line.Split("\"").Last(split => split.Length > 0));
           
         return installationPath;
     }
