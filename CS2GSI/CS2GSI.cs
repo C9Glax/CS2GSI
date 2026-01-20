@@ -30,6 +30,7 @@ public class CS2GSI
         }
         catch (Exception e)
         {
+            this._logger?.Log(LogLevel.Error, e.Message);
             this._logger?.Log(LogLevel.Error, e.StackTrace);
             this._logger?.Log(LogLevel.Critical, Resources.Installing_GSI_File_Failed);
             return;
